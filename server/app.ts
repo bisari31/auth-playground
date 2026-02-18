@@ -1,8 +1,10 @@
 import express from "express";
 import todosRouter from "./routes/todos.js";
+import cors from "cors";
 
 const app = express();
 const PORT = 4000;
+app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use((req, res, next) => {
   console.log(new Date(), req.method, req.url);
