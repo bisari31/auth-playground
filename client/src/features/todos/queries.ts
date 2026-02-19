@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { todosApi } from "@/todos/api";
+import { todosApi } from "@/features/todos/api";
 
 const todoKeys = {
   all: () => ["todos"] as const,
@@ -7,10 +7,10 @@ const todoKeys = {
 };
 
 export const todoQueries = {
-  list: () =>
+  list: (init?: RequestInit) =>
     queryOptions({
       queryKey: todoKeys.all(),
-      queryFn: todosApi.getList,
+      queryFn: () => todosApi.getList(init),
     }),
   detail: (id: number) =>
     queryOptions({
