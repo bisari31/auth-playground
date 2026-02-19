@@ -4,19 +4,21 @@
 
 ## 브랜치
 
-| 브랜치 | 설명 | 상태 |
-|---|---|---|
-| `feat/express-session` | Express + express-session 기반 세션 인증 | 완료 |
-| `feat/fastify-session` | Express → Fastify 마이그레이션 | 진행 예정 |
+| 브랜치                 | 설명                                     | 상태      |
+| ---------------------- | ---------------------------------------- | --------- |
+| `feat/express-session` | Express + express-session 기반 세션 인증 | 완료      |
+| `feat/fastify-session` | Express → Fastify 마이그레이션           | 진행 예정 |
 
 ## 기술 스택
 
 ### Client
+
 - Next.js 15 (App Router)
 - TanStack Query v5
 - Tailwind CSS
 
 ### Server
+
 - Express 5
 - Prisma
 - PostgreSQL
@@ -26,37 +28,37 @@
 express-session을 사용한 세션 기반 인증 구현.
 
 ### 주요 기능
+
 - 회원가입 / 로그인 / 로그아웃
 - express-session + MemoryStore 기반 세션 관리
 - 인증 미들웨어 (authMiddleware)로 보호된 라우트 처리
 - Todo CRUD에 인가(403) 적용 — 본인 Todo만 수정/삭제 가능
-- SSR prefetch 시 쿠키 수동 전달
-- 클라이언트 fetcher에서 401 응답 시 쿠키 삭제 및 리다이렉트
 
 ### 인증 API
 
-| Method | URL | 설명 | 인증 |
-|---|---|---|---|
-| POST | /api/auth/register | 회원가입 | X |
-| POST | /api/auth/login | 로그인 | X |
-| GET | /api/auth/me | 내 정보 조회 | O |
-| POST | /api/auth/logout | 로그아웃 | O |
+| Method | URL                | 설명         | 인증 |
+| ------ | ------------------ | ------------ | ---- |
+| POST   | /api/auth/register | 회원가입     | X    |
+| POST   | /api/auth/login    | 로그인       | X    |
+| GET    | /api/auth/me       | 내 정보 조회 | O    |
+| POST   | /api/auth/logout   | 로그아웃     | O    |
 
 ### Todo API
 
-| Method | URL | 설명 | 인증 |
-|---|---|---|---|
-| GET | /api/todos | 목록 조회 | X |
-| GET | /api/todos/:id | 단건 조회 | X |
-| POST | /api/todos | 생성 | O |
-| PATCH | /api/todos/:id | 완료 토글 | O (본인만) |
-| DELETE | /api/todos/:id | 삭제 | O (본인만) |
+| Method | URL            | 설명      | 인증       |
+| ------ | -------------- | --------- | ---------- |
+| GET    | /api/todos     | 목록 조회 | X          |
+| GET    | /api/todos/:id | 단건 조회 | X          |
+| POST   | /api/todos     | 생성      | O          |
+| PATCH  | /api/todos/:id | 완료 토글 | O (본인만) |
+| DELETE | /api/todos/:id | 삭제      | O (본인만) |
 
 ## feat/fastify-session
 
 Express → Fastify 마이그레이션 예정.
 
 ### 변경 예정 사항
+
 - Express → Fastify 전환
 - express-session → @fastify/session 전환
 - 미들웨어 → Fastify 훅/플러그인 구조로 변경
@@ -79,7 +81,7 @@ auth-playground/
 │       │   ├── auth/            # 인증 API, 쿼리, 타입
 │       │   └── todos/           # Todo API, 쿼리, 타입
 │       └── utils/
-│           └── fetch.ts         # 공통 fetcher (401 처리)
+│           └── fetch.ts         # 공통 fetcher
 └── server/
     ├── controllers/
     │   ├── auth.ts
