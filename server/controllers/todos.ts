@@ -1,45 +1,54 @@
+import type { FastifyReply, FastifyRequest } from "fastify";
 import prisma from "../prisma/client.js";
-import type { Request, Response } from "express";
 
-export const getTodos = async (req: Request, res: Response) => {
+export const getTodos = async (req: FastifyRequest, reply: FastifyReply) => {
   const todos = await prisma.todo.findMany({
     include: { user: { select: { email: true, createdAt: true } } },
     orderBy: { createdAt: "desc" },
   });
-  return res.json(todos);
+  return reply.send(todos);
 };
 
-export const getTodo = async (req: Request, res: Response) => {
+export const getTodo = async (
+  req: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) => {
   const id = Number(req.params.id);
   const todo = await prisma.todo.findUnique({ where: { id } });
   if (todo) {
-    return res.json(todo);
+    return reply.send(todo);
   } else {
-    return res.status(404).json({ error: "Todo not found" });
+    return reply.status(404).send({ error: "Todo not found" });
   }
 };
-export const createTodo = async (req: Request, res: Response) => {
+export const createTodo = async (
+  req: FastifyRequest<{ Body: { title: string } }>,
+  reply: FastifyReply
+) => {
   const title = req.body.title;
 
   if (!title) {
-    return res.status(400).json({ error: "Title is required" });
+    return reply.status(400).send({ error: "Title is required" });
   }
   const newTodo = await prisma.todo.create({
     data: { title, userId: req.session.userId },
   });
-  return res.json(newTodo);
+  return reply.send(newTodo);
 };
 
-export const toggleTodo = async (req: Request, res: Response) => {
+export const toggleTodo = async (
+  req: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) => {
   const id = Number(req.params.id);
 
   const todo = await prisma.todo.findUnique({ where: { id } });
   if (!todo) {
-    return res.status(404).json({ error: "Todo not found" });
+    return reply.status(404).send({ error: "Todo not found" });
   }
 
   if (req.session.userId !== todo.userId) {
-    return res.status(403).json({ error: "권한이 없어요" });
+    return reply.status(403).send({ error: "권한이 없어요" });
   }
 
   const result = await prisma.todo.update({
@@ -47,21 +56,24 @@ export const toggleTodo = async (req: Request, res: Response) => {
     data: { completed: !todo.completed },
   });
 
-  return res.json(result);
+  return reply.send(result);
 };
 
-export const deleteTodo = async (req: Request, res: Response) => {
+export const deleteTodo = async (
+  req: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) => {
   const id = Number(req.params.id);
   const todo = await prisma.todo.findUnique({ where: { id } });
 
   if (!todo) {
-    return res.status(404).json({ error: "Todo not found" });
+    return reply.status(404).send({ error: "Todo not found" });
   }
 
   if (req.session.userId !== todo.userId) {
-    return res.status(403).json({ error: "권한이 없어요" });
+    return reply.status(403).send({ error: "권한이 없어요" });
   }
 
   const result = await prisma.todo.delete({ where: { id } });
-  return res.json(result);
+  return reply.send(result);
 };

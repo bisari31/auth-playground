@@ -1,11 +1,11 @@
-import { Router } from "express";
+import type { FastifyPluginAsync } from "fastify";
 import { login, logout, me, register } from "../controllers/auth.js";
 
-const authRouter = Router();
-
-authRouter.post("/register", register);
-authRouter.post("/login", login);
-authRouter.get("/me", me);
-authRouter.post("/logout", logout);
+const authRouter: FastifyPluginAsync = async (app) => {
+  app.post("/register", register);
+  app.post("/login", login);
+  app.get("/me", me);
+  app.post("/logout", logout);
+};
 
 export default authRouter;

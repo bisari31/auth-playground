@@ -1,7 +1,7 @@
-import "express-session";
+import "@fastify/session";
 
-declare module "express-session" {
-  interface SessionData {
+declare module "@fastify/session" {
+  interface FastifySessionObject {
     userId: number;
   }
 }

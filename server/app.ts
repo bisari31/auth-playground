@@ -1,35 +1,24 @@
-import express from "express";
+import fastify from "fastify";
 import todosRouter from "./routes/todos.js";
-import cors from "cors";
+import cors from "@fastify/cors";
 import authRouter from "./routes/auth.js";
-import session from "express-session";
+import session from "@fastify/session";
+import cookie from "@fastify/cookie";
 
-const app = express();
+const app = fastify({ logger: true });
 const PORT = 4000;
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-app.use(express.json());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET ?? "dev-secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { httpOnly: true },
-    name: "sessionId",
-  })
-);
-app.use((req, res, next) => {
-  console.log(new Date(), req.method, req.url);
-  next();
+app.register(cors, { origin: "http://localhost:3000", credentials: true });
+app.register(cookie);
+app.register(session, {
+  secret: process.env.SESSION_SECRET ?? "dev-secret-must-be-32-chars-long!",
+  cookie: { httpOnly: true },
+  cookieName: "sessionId",
 });
 
-app.use("/api/todos", todosRouter);
-app.use("/api/auth", authRouter);
+app.register(todosRouter, { prefix: "/api/todos" });
+app.register(authRouter, { prefix: "/api/auth" });
 
-app.use((err, req, res, next) => {
-  console.error(err.message);
-  res.status(500).json({ error: "서버 에러가 발생했습니다" });
-});
 // 서버 시작
-app.listen(PORT, () => {
+app.listen({ port: PORT }).then(() => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });

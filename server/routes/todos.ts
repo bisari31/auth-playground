@@ -1,4 +1,3 @@
-import { Router } from "express";
 import {
   createTodo,
   deleteTodo,
@@ -7,15 +6,14 @@ import {
   toggleTodo,
 } from "../controllers/todos.js";
 import { authMiddleware } from "../middlewares/auth.js";
+import type { FastifyPluginAsync } from "fastify";
 
-const todosRouter = Router();
-
-// todosRouter.use(authMiddleware);
-
-todosRouter.get("/", getTodos);
-todosRouter.get("/:id", getTodo);
-todosRouter.post("/", authMiddleware, createTodo);
-todosRouter.patch("/:id", authMiddleware, toggleTodo);
-todosRouter.delete("/:id", authMiddleware, deleteTodo);
+const todosRouter: FastifyPluginAsync = async (app) => {
+  app.get("/", getTodos);
+  app.get("/:id", getTodo);
+  app.post("/", { preHandler: authMiddleware }, createTodo);
+  app.patch("/:id", { preHandler: authMiddleware }, toggleTodo);
+  app.delete("/:id", { preHandler: authMiddleware }, deleteTodo);
+};
 
 export default todosRouter;

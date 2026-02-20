@@ -1,11 +1,9 @@
-import type { Request, Response, NextFunction } from "express";
+import type { FastifyRequest, FastifyReply } from "fastify";
 
-export const authMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
+export const authMiddleware = async (
+  req: FastifyRequest,
+  reply: FastifyReply
 ) => {
   if (!req.session.userId)
-    return res.status(401).json({ error: "로그인이 필요합니다" });
-  next();
+    return reply.status(401).send({ error: "로그인이 필요합니다" });
 };
