@@ -4,10 +4,10 @@
 
 ## 브랜치
 
-| 브랜치                 | 설명                                     | 상태      |
-| ---------------------- | ---------------------------------------- | --------- |
-| `feat/express-session` | Express + express-session 기반 세션 인증 | 완료      |
-| `feat/fastify-session` | Express → Fastify 마이그레이션           | 진행 예정 |
+| 브랜치                 | 설명                                     | 상태 |
+| ---------------------- | ---------------------------------------- | ---- |
+| `feat/express-session` | Express + express-session 기반 세션 인증 | 완료 |
+| `feat/fastify-session` | Express → Fastify 마이그레이션           | 완료 |
 
 ## 기술 스택
 
@@ -19,7 +19,7 @@
 
 ### Server
 
-- Express 5
+- Fastify 5 (`feat/fastify-session`) / Express 5 (`feat/express-session`)
 - Prisma
 - PostgreSQL
 
@@ -55,13 +55,11 @@ express-session을 사용한 세션 기반 인증 구현.
 
 ## feat/fastify-session
 
-Express → Fastify 마이그레이션 예정.
+Express → Fastify 마이그레이션 완료.
 
-### 변경 예정 사항
+### 변경 사항
 
 - Express → Fastify 전환
-- express-session → @fastify/session 전환
-- 미들웨어 → Fastify 훅/플러그인 구조로 변경
 
 ## 프로젝트 구조
 
