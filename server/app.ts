@@ -2,18 +2,16 @@ import fastify from "fastify";
 import todosRouter from "./modules/todos/routes.js";
 import cors from "@fastify/cors";
 import authRouter from "./modules/auth/routes.js";
-import session from "@fastify/session";
 import cookie from "@fastify/cookie";
 
 const app = fastify({ logger: true });
 const PORT = 4000;
-app.register(cors, { origin: "http://localhost:3000", credentials: true });
-app.register(cookie);
-app.register(session, {
-  secret: process.env.SESSION_SECRET ?? "dev-secret-must-be-32-chars-long!",
-  cookie: { httpOnly: true },
-  cookieName: "sessionId",
+app.register(cors, {
+  origin: "http://localhost:3000",
+  credentials: true,
+  methods: ["GET", "POST", "PATCH", "DELETE"],
 });
+app.register(cookie);
 
 app.register(todosRouter, { prefix: "/api/todos" });
 app.register(authRouter, { prefix: "/api/auth" });

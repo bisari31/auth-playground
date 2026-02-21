@@ -31,7 +31,7 @@ export const createTodo = async (
     return reply.status(400).send({ error: "Title is required" });
   }
   const newTodo = await prisma.todo.create({
-    data: { title, userId: req.session.userId },
+    data: { title, userId: req.userId },
   });
   return reply.send(newTodo);
 };
@@ -47,7 +47,7 @@ export const toggleTodo = async (
     return reply.status(404).send({ error: "Todo not found" });
   }
 
-  if (req.session.userId !== todo.userId) {
+  if (req.userId !== todo.userId) {
     return reply.status(403).send({ error: "권한이 없어요" });
   }
 
@@ -70,7 +70,7 @@ export const deleteTodo = async (
     return reply.status(404).send({ error: "Todo not found" });
   }
 
-  if (req.session.userId !== todo.userId) {
+  if (req.userId !== todo.userId) {
     return reply.status(403).send({ error: "권한이 없어요" });
   }
 
