@@ -1,36 +1,26 @@
 import { User } from "@/features/auth/type";
-import { fetcher } from "@/utils/fetch";
-
-const API = "http://localhost:4000/api/auth";
+import { api } from "@/utils/fetch";
 
 export const authApi = {
-  me: (init?: RequestInit): Promise<User> =>
-    fetch(`${API}/me`, {
-      credentials: "include",
-      ...init,
-    }).then((res) => {
-      if (!res.ok) {
-        return null;
-      }
-      return res.json();
-    }),
+  me: (init?: RequestInit): Promise<User | null> =>
+    api("/auth/me", init).catch(() => null),
 
   register: (email: string, password: string): Promise<User> =>
-    fetcher(`${API}/register`, {
+    api("/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     }),
 
-  login: (email: string, password: string): Promise<User> =>
-    fetcher(`${API}/login`, {
+  login: (email: string, password: string): Promise<User & { token: string }> =>
+    api("/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     }),
 
   logout: (): Promise<{ success: boolean }> =>
-    fetcher(`${API}/logout`, {
+    api("/auth/logout", {
       method: "POST",
     }),
 };

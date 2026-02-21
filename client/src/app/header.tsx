@@ -11,13 +11,16 @@ export default function Header() {
   const queryClient = useQueryClient();
 
   const { data } = useQuery(authQueries.me());
-
   const handleLogout = async () => {
-    await authApi.logout();
-    queryClient.invalidateQueries({ queryKey: authQueries.me().queryKey });
+    try {
+      await authApi.logout();
+    } catch {
+      // 실패해도 클라이언트 정리는 진행
+    }
+    localStorage.removeItem("token");
+    queryClient.setQueryData(authQueries.me().queryKey, null);
     router.push("/login");
   };
-
   return (
     <header className="border-b px-6 py-3 flex items-center justify-between">
       <Link href="/" className="font-bold">
