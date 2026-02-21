@@ -60,6 +60,7 @@ Express → Fastify 마이그레이션 완료.
 ### Express 대비 변경 사항
 
 - Express → Fastify 전환
+- controllers/ + routes/ → 도메인별 modules/ 구조로 변경
 
 ## 프로젝트 구조
 
@@ -81,14 +82,14 @@ auth-playground/
 │       └── utils/
 │           └── fetch.ts         # 공통 fetcher
 └── server/
-    ├── controllers/
-    │   ├── auth.ts
-    │   └── todos.ts
-    ├── routes/
-    │   ├── auth.ts
-    │   └── todos.ts
-    ├── middlewares/
-    │   └── auth.ts
+    ├── modules/
+    │   ├── auth/
+    │   │   ├── routes.ts
+    │   │   ├── controller.ts
+    │   │   └── middleware.ts
+    │   └── todos/
+    │       ├── routes.ts
+    │       └── controller.ts
     └── prisma/
         └── schema.prisma
 ```
