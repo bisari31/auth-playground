@@ -28,5 +28,14 @@ model User {
   password String
   createdAt DateTime @default(now())
   todos Todo[]
+  refreshTokens RefreshToken[]
 }
 
+model RefreshToken {
+  id  Int @id @default(autoincrement())
+  token String  @unique
+  userId  Int
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
