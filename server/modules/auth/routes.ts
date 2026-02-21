@@ -1,5 +1,5 @@
 import type { FastifyPluginAsync } from "fastify";
-import { login, logout, me, register } from "../controllers/auth.js";
+import { login, logout, me, register } from "./controller.js";
 
 const authRouter: FastifyPluginAsync = async (app) => {
   app.post("/register", register);

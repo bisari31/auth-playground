@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import prisma from "../prisma/client.js";
+import prisma from "../../prisma/client.js";
 
 export const getTodos = async (req: FastifyRequest, reply: FastifyReply) => {
   const todos = await prisma.todo.findMany({

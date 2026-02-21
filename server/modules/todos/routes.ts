@@ -4,8 +4,8 @@ import {
   getTodo,
   getTodos,
   toggleTodo,
-} from "../controllers/todos.js";
-import { authMiddleware } from "../middlewares/auth.js";
+} from "./controller.js";
+import { authMiddleware } from "../auth/middleware.js";
 import type { FastifyPluginAsync } from "fastify";
 
 const todosRouter: FastifyPluginAsync = async (app) => {

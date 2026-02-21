@@ -1,7 +1,7 @@
 import fastify from "fastify";
-import todosRouter from "./routes/todos.js";
+import todosRouter from "./modules/todos/routes.js";
 import cors from "@fastify/cors";
-import authRouter from "./routes/auth.js";
+import authRouter from "./modules/auth/routes.js";
 import session from "@fastify/session";
 import cookie from "@fastify/cookie";
 

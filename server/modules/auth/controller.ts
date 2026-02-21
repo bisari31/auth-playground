@@ -1,4 +1,4 @@
-import prisma from "../prisma/client.js";
+import prisma from "../../prisma/client.js";
 import bcrypt from "bcrypt";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
