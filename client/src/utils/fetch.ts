@@ -4,7 +4,7 @@ let refreshPromise: Promise<string | null> | null = null;
 
 const refreshAccessToken = async (): Promise<string | null> => {
   try {
-    const res = await fetch(`${SERVER_URL}/refresh`, {
+    const res = await fetch(`${SERVER_URL}/auth/refresh`, {
       method: "POST",
       credentials: "include",
     });
