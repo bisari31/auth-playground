@@ -1,5 +1,5 @@
 import { User } from "@/features/auth/type";
-import { api } from "@/utils/fetch";
+import { SERVER_URL, api } from "@/utils/fetch";
 
 export const authApi = {
   me: (init?: RequestInit): Promise<User | null> =>
@@ -8,19 +8,22 @@ export const authApi = {
   register: (email: string, password: string): Promise<User> =>
     api("/auth/register", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     }),
 
-  login: (email: string, password: string): Promise<User & { token: string }> =>
+  login: (email: string, password: string): Promise<User> =>
     api("/auth/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     }),
 
   logout: (): Promise<{ success: boolean }> =>
     api("/auth/logout", {
       method: "POST",
+    }),
+  refresh: () =>
+    fetch(`${SERVER_URL}/auth/refresh`, {
+      method: "POST",
+      credentials: "include",
     }),
 };

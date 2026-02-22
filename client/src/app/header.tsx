@@ -17,7 +17,6 @@ export default function Header() {
     } catch {
       // 실패해도 클라이언트 정리는 진행
     }
-    localStorage.removeItem("token");
     queryClient.setQueryData(authQueries.me().queryKey, null);
     router.push("/login");
   };

@@ -19,8 +19,6 @@ export default function LoginPage() {
     setError("");
     try {
       const res = await authApi.login(email, password);
-
-      localStorage.setItem("token", res.token);
       queryClient.setQueryData(authQueries.me().queryKey, res);
       router.push("/");
     } catch (err) {

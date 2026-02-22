@@ -2,7 +2,7 @@
 
 import { todosApi } from "@/features/todos/api";
 import { todoQueries } from "@/features/todos/queries";
-import TodoItems from "@/app/todo-items";
+import TodoItems from "@/features/todos/components/todo-items";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";

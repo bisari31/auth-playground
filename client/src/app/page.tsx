@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { cookies } from "next/headers";
-import TodoList from "@/app/todo-list";
+import TodoList from "@/features/todos/components/todo-list";
 import { todoQueries } from "@/features/todos/queries";
 
 export default async function Page() {

@@ -1,32 +1,26 @@
-const SERVER_URL = "http://localhost:4000/api";
+import { authApi } from "@/features/auth/api";
 
-let refreshPromise: Promise<string | null> | null = null;
+export const SERVER_URL = "http://localhost:4000/api";
 
-const refreshAccessToken = async (): Promise<string | null> => {
+let refreshPromise: Promise<boolean> | null = null;
+
+const refreshAccessToken = async (): Promise<boolean> => {
   try {
-    const res = await fetch(`${SERVER_URL}/auth/refresh`, {
-      method: "POST",
-      credentials: "include",
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    localStorage.setItem("token", data.token);
-    return data.token;
+    const res = await authApi.refresh();
+    if (!res.ok) return false;
+    return true;
   } catch {
-    return null;
+    return false;
   }
 };
 
 export const api = async (path: string, init?: RequestInit) => {
   const url = `${SERVER_URL}${path}`;
-  let token: string | null = null;
-  if (typeof window !== "undefined") token = localStorage.getItem("token");
   const response = await fetch(url, {
     credentials: "include",
     ...init,
     headers: {
       ...(init?.body && { "Content-Type": "application/json" }),
-      Authorization: token ? `Bearer ${token}` : "",
       ...init?.headers,
     },
   });
@@ -38,15 +32,14 @@ export const api = async (path: string, init?: RequestInit) => {
       });
     }
 
-    const newToken = await refreshPromise;
+    const result = await refreshPromise;
 
-    if (newToken) {
+    if (result) {
       const retryResponse = await fetch(url, {
         credentials: "include",
         ...init,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${newToken}`,
           ...init?.headers,
         },
       });
@@ -56,7 +49,6 @@ export const api = async (path: string, init?: RequestInit) => {
       return retryData;
     }
 
-    localStorage.removeItem("token");
     throw new Error("인증이 만료되었습니다");
   }
 
