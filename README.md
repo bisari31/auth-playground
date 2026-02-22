@@ -85,8 +85,10 @@ auth-playground/
 │       │   ├── layout.tsx       # Header prefetch + QueryClientProvider
 │       │   ├── page.tsx         # RSC + HydrationBoundary
 │       │   ├── header.tsx       # 로그인 상태 표시 + 로그아웃
+│       │   ├── not-found.tsx    # 404 페이지
 │       │   ├── login/page.tsx
 │       │   └── register/page.tsx
+│       ├── middleware.ts        # 로그인/비로그인 페이지 접근 제어
 │       ├── features/
 │       │   ├── auth/            # 인증 API, 쿼리, 타입
 │       │   └── todos/           # Todo API, 쿼리, 타입, 컴포넌트
