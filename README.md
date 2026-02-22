@@ -79,6 +79,7 @@ Express → Fastify 마이그레이션 + 세션 인증 유지.
 
 ```
 auth-playground/
+├── .prettierrc              # Prettier 설정
 ├── client/
 │   └── src/
 │       ├── app/
