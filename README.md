@@ -51,7 +51,7 @@ Express → Fastify 마이그레이션 + 세션 인증 유지.
 
 ### 주요 기능
 
-- JWT Access Token (localStorage, 10분) + Refresh Token (HttpOnly Cookie, 7일)
+- JWT Access Token (HttpOnly Cookie, 10분) + Refresh Token (HttpOnly Cookie, 7일)
 - Refresh Token Rotation 적용
 - AT 만료 시 클라이언트에서 자동 갱신
 
@@ -85,13 +85,11 @@ auth-playground/
 │       │   ├── layout.tsx       # Header prefetch + QueryClientProvider
 │       │   ├── page.tsx         # RSC + HydrationBoundary
 │       │   ├── header.tsx       # 로그인 상태 표시 + 로그아웃
-│       │   ├── todo-list.tsx    # 폼 + Suspense/ErrorBoundary
-│       │   ├── todo-items.tsx   # 게시판 스타일 Todo 목록
 │       │   ├── login/page.tsx
 │       │   └── register/page.tsx
 │       ├── features/
 │       │   ├── auth/            # 인증 API, 쿼리, 타입
-│       │   └── todos/           # Todo API, 쿼리, 타입
+│       │   └── todos/           # Todo API, 쿼리, 타입, 컴포넌트
 │       └── utils/
 │           └── fetch.ts         # 공통 fetcher (401 자동 갱신)
 └── server/
@@ -100,7 +98,8 @@ auth-playground/
     │   │   ├── routes.ts
     │   │   ├── controller.ts
     │   │   ├── middleware.ts
-    │   │   └── token.ts         # AT/RT 생성 및 쿠키 유틸
+    │   │   ├── token.ts         # AT/RT 생성 및 쿠키 유틸
+    │   │   └── constants.ts     # JWT 시크릿, 토큰 만료 시간
     │   └── todos/
     │       ├── routes.ts
     │       └── controller.ts
