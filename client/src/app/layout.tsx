@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "./providers";
 import Header from "@/app/header";
@@ -11,14 +11,10 @@ import {
 import { cookies } from "next/headers";
 import { authQueries } from "@/features/auth/queries";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const pretendard = localFont({
+  src: "./fonts/PretendardVariable.woff2",
+  variable: "--font-pretendard",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -40,7 +36,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
+        className={`${pretendard.variable} flex min-h-screen flex-col antialiased`}
       >
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
