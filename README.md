@@ -89,12 +89,32 @@ auth-playground/
 │       │   ├── not-found.tsx    # 404 페이지
 │       │   ├── login/page.tsx
 │       │   └── register/page.tsx
+│       ├── assets/
+│       │   └── fonts/           # 로컬 폰트 (Pretendard)
 │       ├── middleware.ts        # 로그인/비로그인 페이지 접근 제어
 │       ├── features/
-│       │   ├── auth/            # 인증 API, 쿼리, 타입
-│       │   └── todos/           # Todo API, 쿼리, 타입, 컴포넌트
-│       └── utils/
-│           └── fetch.ts         # 공통 fetcher (401 자동 갱신)
+│       │   ├── auth/
+│       │   │   ├── api.ts       # 인증 API
+│       │   │   ├── queries.ts   # 쿼리 팩토리
+│       │   │   ├── components/
+│       │   │   │   └── auth-form.tsx    # 로그인/회원가입 공통 폼
+│       │   │   └── hooks/
+│       │   │       ├── use-auth.ts      # 로그인/회원가입/로그아웃
+│       │   │       └── use-me.ts        # 내 정보 조회
+│       │   └── todos/
+│       │       ├── api.ts       # Todo API
+│       │       ├── queries.ts   # 쿼리 팩토리
+│       │       ├── utils.ts     # 유틸 (isOwner)
+│       │       ├── components/
+│       │       │   ├── todo-container.tsx  # 입력 폼 + Suspense 래퍼
+│       │       │   ├── todo-list.tsx       # Todo 테이블
+│       │       │   └── todo-row.tsx        # Todo 행
+│       │       └── hooks/
+│       │           └── use-todo-mutations.ts  # 생성/토글/삭제 mutation
+│       └── shared/
+│           └── utils/
+│               ├── fetch.ts     # 공통 fetcher (401 자동 갱신)
+│               └── date.ts      # 날짜 포맷 (dayjs)
 └── server/
     ├── modules/
     │   ├── auth/
