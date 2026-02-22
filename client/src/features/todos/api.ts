@@ -1,5 +1,5 @@
 import { Todo } from "@/features/todos/type";
-import { api } from "@/utils/fetch";
+import { api } from "@/shared/utils/fetch";
 
 export const todosApi = {
   getList: (init?: RequestInit): Promise<Todo[]> => api("/todos", init),

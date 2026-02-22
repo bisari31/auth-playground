@@ -1,5 +1,5 @@
 import { User } from "@/features/auth/type";
-import { SERVER_URL, api } from "@/utils/fetch";
+import { SERVER_URL, api } from "@/shared/utils/fetch";
 
 export const authApi = {
   me: (init?: RequestInit): Promise<User | null> =>
