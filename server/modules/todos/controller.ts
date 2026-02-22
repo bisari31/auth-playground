@@ -18,7 +18,7 @@ export const getTodo = async (
   if (todo) {
     return reply.send(todo);
   } else {
-    return reply.status(404).send({ error: "Todo not found" });
+    return reply.status(404).send({ error: "할 일을 찾을 수 없습니다" });
   }
 };
 export const createTodo = async (
@@ -28,7 +28,7 @@ export const createTodo = async (
   const title = req.body.title;
 
   if (!title) {
-    return reply.status(400).send({ error: "Title is required" });
+    return reply.status(400).send({ error: "제목을 입력해주세요" });
   }
   const newTodo = await prisma.todo.create({
     data: { title, userId: req.userId },
@@ -44,7 +44,7 @@ export const toggleTodo = async (
 
   const todo = await prisma.todo.findUnique({ where: { id } });
   if (!todo) {
-    return reply.status(404).send({ error: "Todo not found" });
+    return reply.status(404).send({ error: "할 일을 찾을 수 없습니다" });
   }
 
   if (req.userId !== todo.userId) {
@@ -67,7 +67,7 @@ export const deleteTodo = async (
   const todo = await prisma.todo.findUnique({ where: { id } });
 
   if (!todo) {
-    return reply.status(404).send({ error: "Todo not found" });
+    return reply.status(404).send({ error: "할 일을 찾을 수 없습니다" });
   }
 
   if (req.userId !== todo.userId) {

@@ -5,12 +5,10 @@ import jwt from "jsonwebtoken";
 import {
   generateAccessToken,
   generateRefreshToken,
-  setRefreshTokenCookie,
-  clearRefreshTokenCookie,
+  clearCookie,
+  setCookie,
 } from "./token.js";
-
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
+import { JWT_REFRESH_SECRET } from "./constants.js";
 
 export const register = async (
   req: FastifyRequest<{ Body: { email: string; password: string } }>,
@@ -35,6 +33,10 @@ export const register = async (
     data: { email, password: hashedPassword },
   });
 
+  const token = generateAccessToken(newUser.id);
+  const refreshToken = await generateRefreshToken(newUser.id);
+  setCookie(reply, "refreshToken", refreshToken);
+  setCookie(reply, "token", token);
   return reply.send({ id: newUser.id, email: newUser.email });
 };
 
@@ -68,9 +70,10 @@ export const login = async (
 
   const token = generateAccessToken(user.id);
   const refreshToken = await generateRefreshToken(user.id);
-  setRefreshTokenCookie(reply, refreshToken);
+  setCookie(reply, "refreshToken", refreshToken);
+  setCookie(reply, "token", token);
 
-  return reply.send({ id: user.id, email: user.email, token });
+  return reply.send({ id: user.id, email: user.email });
 };
 
 export const me = async (req: FastifyRequest, reply: FastifyReply) => {
@@ -92,7 +95,8 @@ export const logout = async (req: FastifyRequest, reply: FastifyReply) => {
     await prisma.refreshToken.deleteMany({ where: { token: refreshToken } });
   }
 
-  clearRefreshTokenCookie(reply);
+  clearCookie(reply, "refreshToken");
+  clearCookie(reply, "token");
   return reply.send({ success: true });
 };
 
@@ -107,7 +111,7 @@ export const refresh = async (req: FastifyRequest, reply: FastifyReply) => {
   try {
     payload = jwt.verify(oldToken, JWT_REFRESH_SECRET) as { userId: number };
   } catch {
-    clearRefreshTokenCookie(reply);
+    clearCookie(reply, "refreshToken");
     return reply
       .status(401)
       .send({ error: "유효하지 않은 refresh token입니다" });
@@ -119,7 +123,7 @@ export const refresh = async (req: FastifyRequest, reply: FastifyReply) => {
 
   if (!storedToken) {
     await prisma.refreshToken.deleteMany({ where: { userId: payload.userId } });
-    clearRefreshTokenCookie(reply);
+    clearCookie(reply, "refreshToken");
     return reply
       .status(401)
       .send({ error: "Refresh token이 재사용되었습니다" });
@@ -127,7 +131,7 @@ export const refresh = async (req: FastifyRequest, reply: FastifyReply) => {
 
   if (storedToken.expiresAt < new Date()) {
     await prisma.refreshToken.delete({ where: { id: storedToken.id } });
-    clearRefreshTokenCookie(reply);
+    clearCookie(reply, "refreshToken");
     return reply.status(401).send({ error: "Refresh token이 만료되었습니다" });
   }
 
@@ -136,6 +140,7 @@ export const refresh = async (req: FastifyRequest, reply: FastifyReply) => {
   const newAccessToken = generateAccessToken(payload.userId);
   const newRefreshToken = await generateRefreshToken(payload.userId);
 
-  setRefreshTokenCookie(reply, newRefreshToken);
-  return reply.send({ token: newAccessToken });
+  setCookie(reply, "refreshToken", newRefreshToken);
+  setCookie(reply, "token", newAccessToken);
+  return reply.send({ success: true });
 };
