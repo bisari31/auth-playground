@@ -29,7 +29,7 @@ export default function RegisterPage() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 max-w-sm mx-auto mt-20"
+      className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center gap-4"
     >
       <h1 className="text-2xl font-bold">회원가입</h1>
 
@@ -40,16 +40,16 @@ export default function RegisterPage() {
         placeholder="이메일"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="border rounded px-3 py-2"
+        className="rounded border px-3 py-2"
       />
       <input
         type="password"
         placeholder="비밀번호"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="border rounded px-3 py-2"
+        className="rounded border px-3 py-2"
       />
-      <button type="submit" className="bg-blue-500 text-white py-2 rounded">
+      <button type="submit" className="rounded bg-blue-500 py-2 text-white">
         회원가입
       </button>
       <Link href="/login" className="text-center text-sm text-gray-500">

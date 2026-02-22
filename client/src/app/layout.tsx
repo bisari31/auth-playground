@@ -34,19 +34,19 @@ export default async function RootLayout({
   const queryClient = new QueryClient();
   const cookieStore = await cookies();
   await queryClient.prefetchQuery(
-    authQueries.me({ headers: { Cookie: cookieStore.toString() } })
+    authQueries.me({ headers: { Cookie: cookieStore.toString() } }),
   );
 
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
       >
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
             <Header />
           </HydrationBoundary>
-          {children}
+          <main className="flex flex-1 flex-col">{children}</main>
         </Providers>
       </body>
     </html>
