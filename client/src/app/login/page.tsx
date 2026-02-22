@@ -1,60 +1,23 @@
 "use client";
 
-import { authApi } from "@/features/auth/api";
-import { authQueries } from "@/features/auth/queries";
-import { useQueryClient } from "@tanstack/react-query";
+import AuthForm from "@/features/auth/components/auth-form";
+import useAuth from "@/features/auth/hooks/use-auth";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const queryClient = useQueryClient();
-
-  const handleSubmit = async (e: React.SubmitEvent) => {
-    e.preventDefault();
-    setError("");
-    try {
-      const res = await authApi.login(email, password);
-      queryClient.setQueryData(authQueries.me().queryKey, res);
-      router.push("/");
-    } catch (err) {
-      setError("로그인에 실패했습니다");
-    }
-  };
+  const { login } = useAuth();
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center gap-4"
-    >
-      <h1 className="text-2xl font-bold">로그인</h1>
-
-      {error && <p className="text-red-500">{error}</p>}
-
-      <input
-        type="string"
-        placeholder="이메일"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="rounded border px-3 py-2"
-      />
-      <input
-        type="password"
-        placeholder="비밀번호"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="rounded border px-3 py-2"
-      />
-      <button type="submit" className="rounded bg-blue-500 py-2 text-white">
-        로그인
-      </button>
-      <Link href="/register" className="text-center text-sm text-gray-500">
-        계정이 없으신가요? 회원가입
-      </Link>
-    </form>
+    <AuthForm
+      onSubmit={login}
+      submitLabel="로그인"
+      title="로그인"
+      errorMessage="로그인에 실패했습니다"
+      footer={
+        <Link href="/register" className="text-center text-sm text-gray-500">
+          계정이 없으신가요? 회원가입
+        </Link>
+      }
+    />
   );
 }
