@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { cookies } from "next/headers";
-import TodoList from "@/features/todos/components/todo-list";
+import TodoContainer from "@/features/todos/components/todo-container";
 import { todoQueries } from "@/features/todos/queries";
 
 export default async function Page() {
@@ -12,12 +12,12 @@ export default async function Page() {
   const cookieStore = await cookies();
 
   await queryClient.prefetchQuery(
-    todoQueries.list({ headers: { Cookie: cookieStore.toString() } })
+    todoQueries.list({ headers: { Cookie: cookieStore.toString() } }),
   );
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TodoList />
+      <TodoContainer />
     </HydrationBoundary>
   );
 }
