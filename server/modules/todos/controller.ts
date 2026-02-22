@@ -31,7 +31,7 @@ export const createTodo = async (
     return reply.status(400).send({ error: "제목을 입력해주세요" });
   }
   const newTodo = await prisma.todo.create({
-    data: { title, userId: req.userId },
+    data: { title, userId: req.userId as number },
   });
   return reply.send(newTodo);
 };

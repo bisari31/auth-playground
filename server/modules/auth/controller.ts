@@ -78,7 +78,7 @@ export const login = async (
 
 export const me = async (req: FastifyRequest, reply: FastifyReply) => {
   const user = await prisma.user.findUnique({
-    where: { id: req.userId },
+    where: { id: req.userId as number },
   });
 
   if (!user) {
