@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "./providers";
-import Header from "@/app/header";
+import Header from "@/shared/components/header";
 import {
   dehydrate,
   HydrationBoundary,
