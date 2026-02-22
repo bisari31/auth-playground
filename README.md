@@ -85,7 +85,6 @@ auth-playground/
 │       ├── app/
 │       │   ├── layout.tsx       # Header prefetch + QueryClientProvider
 │       │   ├── page.tsx         # RSC + HydrationBoundary
-│       │   ├── header.tsx       # 로그인 상태 표시 + 로그아웃
 │       │   ├── not-found.tsx    # 404 페이지
 │       │   ├── login/page.tsx
 │       │   └── register/page.tsx
@@ -112,6 +111,8 @@ auth-playground/
 │       │       └── hooks/
 │       │           └── use-todo-mutations.ts  # 생성/토글/삭제 mutation
 │       └── shared/
+│           ├── components/
+│           │   └── header.tsx   # 로그인 상태 표시 + 로그아웃
 │           └── utils/
 │               ├── fetch.ts     # 공통 fetcher (401 자동 갱신)
 │               └── date.ts      # 날짜 포맷 (dayjs)
