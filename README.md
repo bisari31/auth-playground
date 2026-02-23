@@ -110,6 +110,8 @@ auth-playground/
 │       │       │   └── todo-row.tsx        # Todo 행
 │       │       └── hooks/
 │       │           └── use-todo-mutations.ts  # 생성/토글/삭제 mutation
+│       ├── test/
+│       │   └── test-utils.tsx    # 테스트 유틸 (renderWithClient 등)
 │       └── shared/
 │           ├── components/
 │           │   └── header.tsx   # 로그인 상태 표시 + 로그아웃
