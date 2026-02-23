@@ -10,17 +10,17 @@ export default function useTodoMutations() {
   };
 
   const create = useMutation({
-    mutationFn: todosApi.create,
+    mutationFn: (title: string) => todosApi.create(title),
     onSuccess: invalidateTodos,
   });
 
   const toggle = useMutation({
-    mutationFn: todosApi.toggle,
+    mutationFn: (id: number) => todosApi.toggle(id),
     onSuccess: invalidateTodos,
   });
 
   const remove = useMutation({
-    mutationFn: todosApi.delete,
+    mutationFn: (id: number) => todosApi.delete(id),
     onSuccess: invalidateTodos,
   });
 
