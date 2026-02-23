@@ -24,6 +24,7 @@ Conventional Commits 형식을 따릅니다.
 | `fix` | 버그 수정 |
 | `chore` | 빌드/패키지/설정 변경 |
 | `refactor` | 리팩토링 |
+| `test` | 테스트 추가/수정 |
 | `docs` | 문서 수정 |
 
 ## 예시
